@@ -1,22 +1,29 @@
-import * as core from '@actions/core';
-import * as github from '@actions/github';
+import { setFailed } from '@actions/core';
+import { context } from '@actions/github';
+import { Octokit } from '@octokit/core';
+import { restEndpointMethods } from '@octokit/plugin-rest-endpoint-methods';
 import * as linter from './lint';
 
 async function run() {
-  const token: string = process.env.GITHUB_TOKEN!;
-  const client = github.getOctokit(token).rest.pulls;
+  const token: string = process.env.PROJEN_GITHUB_TOKEN!;
+  const octokit = Octokit.plugin(restEndpointMethods);
+
+  const client = new octokit({
+    auth: token,
+  }).rest.pulls;
+
 
   const prLinter = new linter.PullRequestLinter({
     client,
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    number: github.context.issue.number,
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    number: context.issue.number,
   });
 
   try {
     await prLinter.validate()
   } catch (error) {
-    core.setFailed(error.message);
+    setFailed(error.message);
   }
 }
 
