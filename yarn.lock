@@ -1487,6 +1487,14 @@
     read-package-json-fast "^2.0.3"
     which "^2.0.2"
 
+"@octokit/auth-action@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@octokit/auth-action/-/auth-action-2.0.1.tgz#6b4757713b5067c022787806c2c666affb73f716"
+  integrity sha512-nh5UTN22jK7ll2BR+zS7yZXB6u9q2lsI+teOhdC/JCfws8guKjH3NynV0ipwERnwP11/GiHJ48Ji+HC5+R92ag==
+  dependencies:
+    "@octokit/auth-token" "^3.0.0"
+    "@octokit/types" "^7.0.0"
+
 "@octokit/auth-token@^2.4.4":
   version "2.5.0"
   resolved "https://registry.npmjs.org/@octokit/auth-token/-/auth-token-2.5.0.tgz#27c37ea26c205f28443402477ffd261311f21e36"

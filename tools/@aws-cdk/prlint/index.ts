@@ -2,15 +2,17 @@ import { setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { Octokit } from '@octokit/core';
 import { restEndpointMethods } from '@octokit/plugin-rest-endpoint-methods';
+import { createActionAuth } from '@octokit/auth-action';
 import * as linter from './lint';
 
 async function run() {
-  const token = process.env.GITHUB_TOKEN;
   const octokit = Octokit.plugin(restEndpointMethods);
+  const auth = createActionAuth();
+  const token = await auth();
 
   const client = new octokit({
     auth: token,
-  }).rest.pulls;
+  });
 
 
   const prLinter = new linter.PullRequestLinter({
