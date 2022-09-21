@@ -5,7 +5,7 @@ import { restEndpointMethods } from '@octokit/plugin-rest-endpoint-methods';
 import * as linter from './lint';
 
 async function run() {
-  const token: string = process.env.PROJEN_GITHUB_TOKEN!;
+  const token = process.env.GITHUB_TOKEN;
   const octokit = Octokit.plugin(restEndpointMethods);
 
   const client = new octokit({
