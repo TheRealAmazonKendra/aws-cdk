@@ -12,7 +12,7 @@ async function run() {
 
   const client = new octokit({
     auth: token.token,
-  });
+  }).rest.pulls;
 
 
   const prLinter = new linter.PullRequestLinter({
