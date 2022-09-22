@@ -3,7 +3,7 @@
 
 name: PR Linter
 on:
-  pull_request:
+  pull_request_target:
     types:
       - labeled
       - unlabeled
@@ -11,9 +11,6 @@ on:
       - opened
       - synchronize
       - reopened
-env:
-  GITHUB_TOKEN: ${{ secrets.PROJEN_GITHUB_TOKEN }}
-  REPO_ROOT: ${{ github.workspace }}
 
 jobs:
   validate-pr:
@@ -31,3 +28,6 @@ jobs:
 
       - name: Validate
         uses: ./tools/@aws-cdk/prlint
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          REPO_ROOT: ${{ github.workspace }}
