@@ -11,7 +11,7 @@ async function run() {
   const token = await auth();
 
   const client = new octokit({
-    auth: token,
+    auth: token.token,
   });
 
 
