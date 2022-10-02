@@ -182,7 +182,8 @@ export class PullRequestLinter {
           ...this.prParams,
           review_id: review.id,
         })
-
+        
+        console.log(comments);
         await this.client.pulls.deleteReviewComment({
           ...this.prParams,
           comment_id: comments.data[0].id,
