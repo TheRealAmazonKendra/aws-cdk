@@ -171,6 +171,12 @@ export class PullRequestLinter {
   private async cleanupPreviousPRLinterReviews(): Promise<void> {
     const reviews = await this.client.pulls.listReviews(this.prParams);
     reviews.data.forEach(async (review) => {
+      const reviewComments = await this.client.pulls.listCommentsForReview({
+        ...this.prParams,
+        review_id: review.id,
+      })
+      
+      console.log(reviewComments);
       if (review.user?.login === 'github-actions[bot]' && review.state !== 'DISMISSED') {
         await this.client.pulls.dismissReview({
           ...this.prParams,
