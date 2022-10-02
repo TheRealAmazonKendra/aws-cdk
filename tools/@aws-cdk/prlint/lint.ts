@@ -186,7 +186,9 @@ export class PullRequestLinter {
       ...this.prParams,
     });
 
+    console.log(comments.data);
     comments.data.forEach(async (comment) => {
+      console.log(comment);
       if (comment.user.login === 'github-actions[bot]') {
         await this.client.pulls.deleteReviewComment({
           ...this.prParams,
