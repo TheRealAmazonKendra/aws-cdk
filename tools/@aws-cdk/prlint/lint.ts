@@ -171,7 +171,7 @@ export class PullRequestLinter {
   private async cleanupPreviousPRLinterReviews(): Promise<void> {
     const reviews = await this.client.pulls.listReviews(this.prParams);
     reviews.data.forEach(async (review) => {
-      if (review.user?.login === 'aws-cdk-automation' && review.state !== 'DISMISSED') {
+      if (review.user?.login === 'github-actions[bot]' && review.state !== 'DISMISSED') {
         await this.client.pulls.dismissReview({
           ...this.prParams,
           review_id: review.id,
@@ -187,7 +187,7 @@ export class PullRequestLinter {
     });
 
     comments.data.forEach(async (comment) => {
-      if (comment.user.login === 'aws-cdk-automation') {
+      if (comment.user.login === 'github-actions[bot]') {
         await this.client.pulls.deleteReviewComment({
           ...this.prParams,
           comment_id: comment.id,
