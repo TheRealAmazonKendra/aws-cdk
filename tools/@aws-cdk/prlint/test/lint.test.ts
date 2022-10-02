@@ -363,6 +363,10 @@ function configureMock(pr: linter.GitHubPr, prFiles?: linter.GitHubFile[]): lint
     listReviewComments(_props: { _owner: string, _repo: string, _pull_number: number }) {
       return { data: [{ id: 1212121212, user: { login: 'github-actions[bot]' } }] };
     },
+    
+    listCommentsForReview(_props: { _owner: string, _repo: string, _pull_number: number }) {
+      return { data: [{ id: 1212121212, user: { login: 'github-actions[bot]' } }] };
+    },
 
     deleteReviewComment() {},
 
