@@ -262,8 +262,8 @@ export class PullRequestLinter {
       testRuleSet: [ { test: noCliChanges } ],
     });
 
-    await this.cleanupPreviousPRLinterReviews();
     await this.deletePreviousPRLinterReviewComments();
+    await this.cleanupPreviousPRLinterReviews();
     validationCollector.isValid() ? console.log("✅  Success") : await this.communicateResult(validationCollector.errors);
   }
 
