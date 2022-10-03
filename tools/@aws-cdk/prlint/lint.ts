@@ -217,12 +217,12 @@ export class PullRequestLinter {
 
   private async findExistingReview(): Promise<Review | undefined> {
     const reviews = await this.client.pulls.listReviews(this.prParams);
-    return reviews.data.find((review) => review.user?.login === 'aws-cdk-automation' && review.state !== 'DISMISSED') as Review;
+    return reviews.data.find((review) => review.user?.login === 'github-actions[bot]' && review.state !== 'DISMISSED') as Review;
   }
 
   private async findExistingComment(): Promise<Comment | undefined> {
     const comments = await this.client.issues.listComments();
-    return comments.data.find((comment) => comment.user?.login === 'aws-cdk-automation' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
+    return comments.data.find((comment) => comment.user?.login === 'github-actions[bot]' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
   }
 
   /**
