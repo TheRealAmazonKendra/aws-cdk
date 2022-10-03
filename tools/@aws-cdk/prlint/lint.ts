@@ -237,7 +237,7 @@ export class PullRequestLinter {
    */
   private async findExistingComment(): Promise<Comment | undefined> {
     const comments = await this.client.issues.listComments();
-    console.log(reviews);
+    console.log(comments);
     return comments.data.find((comment) => comment.user?.login === 'github-actions[bot]' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
   }
 
