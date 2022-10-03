@@ -210,8 +210,6 @@ export class PullRequestLinter {
       body,
     });
 
-
-
     throw new LinterError(body);
   }
 
