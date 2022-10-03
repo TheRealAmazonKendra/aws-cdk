@@ -355,7 +355,7 @@ function configureMock(pr: linter.GitHubPr, prFiles?: linter.GitHubFile[]): lint
     },
 
     listReviews(_props: { _owner: string, _repo: string, _pull_number: number }) {
-      return { data: [{ id: 1111122222, user: { login: 'aws-cdk-automation' }, state: 'CHANGES_REQUESTED' }] };
+      return { data: [{ id: 1111122222, user: { login: 'github-action[bot]' }, state: 'CHANGES_REQUESTED' }] };
     },
 
     dismissReview() {},
@@ -365,7 +365,7 @@ function configureMock(pr: linter.GitHubPr, prFiles?: linter.GitHubFile[]): lint
     createComment() {},
 
     listComments() {
-      return { data: [{ id: 1212121212, user: { login: 'aws-cdk-automation' }, body: 'The pull request linter fails with the following errors:' }] }
+      return { data: [{ id: 1212121212, user: { login: 'github-actions[bot]' }, body: 'The pull request linter fails with the following errors:' }] }
     }
   };
   return new linter.PullRequestLinter({

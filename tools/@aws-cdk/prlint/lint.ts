@@ -228,7 +228,7 @@ export class PullRequestLinter {
   private async findExistingReview(): Promise<Review | undefined> {
     const reviews = await this.client.pulls.listReviews(this.prParams);
     console.log(reviews);
-    return reviews.data.find((review) => review.user?.login === 'aws-cdk-automation' && review.state !== 'DISMISSED') as Review;
+    return reviews.data.find((review) => review.user?.login === 'github-actions[bot]' && review.state !== 'DISMISSED') as Review;
   }
 
   /**
@@ -237,8 +237,8 @@ export class PullRequestLinter {
    */
   private async findExistingComment(): Promise<Comment | undefined> {
     const comments = await this.client.issues.listComments();
-    console.log(comments);
-    return comments.data.find((comment) => comment.user?.login === 'aws-cdk-automation' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
+    console.log(reviews);
+    return comments.data.find((comment) => comment.user?.login === 'github-actions[bot]' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
   }
 
   /**
