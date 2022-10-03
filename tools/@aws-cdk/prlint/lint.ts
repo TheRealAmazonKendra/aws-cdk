@@ -181,7 +181,8 @@ export class PullRequestLinter {
   }
 
   /**
-   * Dismisses previous reviews by aws-cdk-automation when changes have been made to the pull request.
+   * Dismisses previous reviews by aws-cdk-automation when the pull request succeeds the linter.
+   * @param existingReview The review created by a previous run of the linter
    */
   private async dismissPRLinterReview(existingReview: Review): Promise<void> {
     await this.client.pulls.dismissReview({
@@ -191,20 +192,27 @@ export class PullRequestLinter {
     })
   }
 
+  /**
+   * Creates a new review and comment for first run with failure or deletes
+   * @param failureMessages The failures received by the pr linter validation checks.
+   * @param existingReview The review created by a previous run of the linter.
+   */
   private async createOrUpdatePRLinterReview(failureMessages: string[], existingReview?: Review): Promise<void> {
+    const comment = await this.findExistingComment();
     const body = `The pull request linter fails with the following errors:${this.formatErrors(failureMessages)}PRs must pass status checks before we can provide a meaningful review.`;
     existingReview ?
-    (await this.client.pulls.createReview({
+    // Since previous versions of this pr linter didn't add comments, we need to do this check first.
+    comment ? await this.client.issues.deleteComment({
+      ...this.issueParams,
+      comment_id: comment.id,
+    }) : {} :
+    await this.client.pulls.createReview({
       ...this.prParams,
       body: 'The pull request linter has failed. See the aws-cdk-automation comment below for failure reasons.' +
         ' If you believe this pull request should receive an exemption, please comment and provide a justification.',
       event: 'REQUEST_CHANGES',
-    }),
-    // Since previous versions of this pr linter didn't add comments, we need to do this check first.
-    await this.findExistingComment() ? await this.client.issues.deleteComment({
-      ...this.issueParams,
-      comment_id: (await this.findExistingComment())!.id,
-    }) : {}) :
+    });
+
     await this.client.issues.createComment({
       ...this.issueParams,
       body,
@@ -213,13 +221,23 @@ export class PullRequestLinter {
     throw new LinterError(body);
   }
 
+  /**
+   *
+   * @returns
+   */
   private async findExistingReview(): Promise<Review | undefined> {
     const reviews = await this.client.pulls.listReviews(this.prParams);
+    console.log(reviews);
     return reviews.data.find((review) => review.user?.login === 'aws-cdk-automation' && review.state !== 'DISMISSED') as Review;
   }
 
+  /**
+   *
+   * @returns
+   */
   private async findExistingComment(): Promise<Comment | undefined> {
     const comments = await this.client.issues.listComments();
+    console.log(comments);
     return comments.data.find((comment) => comment.user?.login === 'aws-cdk-automation' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
   }
 
@@ -233,7 +251,7 @@ export class PullRequestLinter {
       console.log("✅  Success");
       existingReview ? await this.dismissPRLinterReview(existingReview) : {};
     } else {
-      await this.createOrUpdatePRLinterReview(result.errors);
+      await this.createOrUpdatePRLinterReview(result.errors, existingReview);
     }
   }
 
