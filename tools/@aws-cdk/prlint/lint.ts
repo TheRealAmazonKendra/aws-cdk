@@ -215,11 +215,19 @@ export class PullRequestLinter {
     throw new LinterError(body);
   }
 
+  /**
+   * Finds existing review, if present
+   * @returns - review, if present
+   */
   private async findExistingReview(): Promise<Review | undefined> {
     const reviews = await this.client.pulls.listReviews(this.prParams);
     return reviews.data.find((review) => review.user?.login === 'aws-cdk-automation' && review.state !== 'DISMISSED') as Review;
   }
 
+  /**
+   * Finds existing comment from previous review, if present
+   * @returns - comment, if present
+   */
   private async findExistingComment(): Promise<Comment | undefined> {
     const comments = await this.client.issues.listComments();
     return comments.data.find((comment) => comment.user?.login === 'aws-cdk-automation' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
@@ -235,7 +243,7 @@ export class PullRequestLinter {
       console.log("✅  Success");
       existingReview ? await this.dismissPRLinterReview(existingReview) : {};
     } else {
-      await this.createOrUpdatePRLinterReview(result.errors);
+      await this.createOrUpdatePRLinterReview(result.errors, existingReview);
     }
   }
 
