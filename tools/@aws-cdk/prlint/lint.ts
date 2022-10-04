@@ -198,10 +198,7 @@ export class PullRequestLinter {
    * @param existingReview The review created by a previous run of the linter.
    */
   private async createOrUpdatePRLinterReview(failureMessages: string[], existingReview?: Review): Promise<void> {
-    console.log("Find existing comments: ");
     const comment = await this.findExistingComment();
-    console.log("Comment: " + comment);
-    console.log("Existing Review: " + existingReview);
     const body = `The pull request linter fails with the following errors:${this.formatErrors(failureMessages)}PRs must pass status checks before we can provide a meaningful review.`;
     existingReview ?
     // Since previous versions of this pr linter didn't add comments, we need to do this check first.
@@ -229,10 +226,7 @@ export class PullRequestLinter {
    * @returns Existing review, if present
    */
   private async findExistingReview(): Promise<Review | undefined> {
-    console.log("Find existing reviews: ");
     const reviews = await this.client.pulls.listReviews(this.prParams);
-    console.log("Reviews: ");
-    console.log(reviews);
     return reviews.data.find((review) => review.user?.login === 'github-actions[bot]' && review.state !== 'DISMISSED') as Review;
   }
 
@@ -244,8 +238,6 @@ export class PullRequestLinter {
     const comments = await this.client.issues.listComments({
       ...this.issueParams
     });
-    console.log('Comments: ');
-    console.log(comments);
     return comments.data.find((comment) => comment.user?.login === 'github-actions[bot]' && comment.body?.startsWith('The pull request linter fails with the following errors:')) as Comment;
   }
 
@@ -255,8 +247,6 @@ export class PullRequestLinter {
    */
   private async communicateResult(result: ValidationCollector): Promise<void> {
     const existingReview = await this.findExistingReview();
-    console.log("Existing Review: ");
-    console.log(existingReview);
     if (result.isValid()) {
       console.log("✅  Success");
       existingReview ? await this.dismissPRLinterReview(existingReview) : {};
