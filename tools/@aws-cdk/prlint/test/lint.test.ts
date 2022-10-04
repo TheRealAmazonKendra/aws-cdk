@@ -364,6 +364,8 @@ function configureMock(pr: linter.GitHubPr, prFiles?: linter.GitHubFile[]): lint
   const issuesClient = {
     createComment() {},
 
+    deleteComment() {},
+
     listComments() {
       return { data: [{ id: 1212121212, user: { login: 'github-actions[bot]' }, body: 'The pull request linter fails with the following errors:' }] }
     }
