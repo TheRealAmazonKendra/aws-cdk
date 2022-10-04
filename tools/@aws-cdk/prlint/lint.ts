@@ -198,6 +198,7 @@ export class PullRequestLinter {
    * @param existingReview The review created by a previous run of the linter.
    */
   private async createOrUpdatePRLinterReview(failureMessages: string[], existingReview?: Review): Promise<void> {
+    console.log("Find existing comments: ");
     const comment = await this.findExistingComment();
     console.log("Comment: " + comment);
     console.log("Existing Review: " + existingReview);
@@ -228,6 +229,7 @@ export class PullRequestLinter {
    * @returns Existing review, if present
    */
   private async findExistingReview(): Promise<Review | undefined> {
+    console.log("Find existing reviews: ");
     const reviews = await this.client.pulls.listReviews(this.prParams);
     console.log("Reviews: ");
     console.log(reviews);
