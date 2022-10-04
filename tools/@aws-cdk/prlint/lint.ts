@@ -217,7 +217,7 @@ export class PullRequestLinter {
     await this.client.issues.createComment({
       ...this.issueParams,
       body,
-    });
+    })
 
     throw new LinterError(body);
   }
