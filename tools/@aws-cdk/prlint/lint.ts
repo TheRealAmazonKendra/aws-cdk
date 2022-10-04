@@ -217,7 +217,7 @@ export class PullRequestLinter {
 
   /**
    * Finds existing review, if present
-   * @returns - review, if present
+   * @returns Existing review, if present
    */
   private async findExistingReview(): Promise<Review | undefined> {
     const reviews = await this.client.pulls.listReviews(this.prParams);
@@ -226,7 +226,7 @@ export class PullRequestLinter {
 
   /**
    * Finds existing comment from previous review, if present
-   * @returns - comment, if present
+   * @returns Existing comment, if present
    */
   private async findExistingComment(): Promise<Comment | undefined> {
     const comments = await this.client.issues.listComments();
