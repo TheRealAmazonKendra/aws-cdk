@@ -26,5 +26,7 @@ module.exports = {
 	reporters: [
         "default",
           [ "jest-junit", { suiteName: "jest tests", outputDirectory: "coverage" } ]
-    ]
+    ],
+	silent: true,
+	verbose: true,
 };
