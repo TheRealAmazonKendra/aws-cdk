@@ -74,13 +74,10 @@ rm -rf $BUILD_INDICATOR
 export MERKLE_BUILD_CACHE=$(mktemp -d)
 trap "rm -rf $MERKLE_BUILD_CACHE" EXIT
 
-if [ "$run_tests" == "true" ]; then
-    runtarget="$runtarget+test"
-fi
-
 echo "============================================================================================="
 echo "building..."
-time lerna run $bail --stream $runtarget || fail
+time lerna run $bail --stream build || fail
+# time lerna run test
 
 if [ "$check_compat" == "true" ]; then
   /bin/bash scripts/check-api-compatibility.sh

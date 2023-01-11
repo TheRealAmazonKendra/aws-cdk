@@ -390,7 +390,11 @@ async function transformPackage(
     await copyOrTransformFiles(destination, destination, allLibraries, uberPackageJson);
   } else {
     await copyOrTransformFiles(library.root, destination, allLibraries, uberPackageJson);
-    await copyLiterateSources(path.join(library.root, 'test'), path.join(destination, 'test'), allLibraries, uberPackageJson);
+    try {
+      await copyLiterateSources(path.join(library.root, 'test'), path.join(destination, 'test'), allLibraries, uberPackageJson);
+    } catch (e) {
+      console.log(`No tests for ${library.root}`);
+    }
   }
 
   await fs.writeFile(

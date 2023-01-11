@@ -61,23 +61,24 @@ async function main() {
       }
     }
 
-    async function write(relativePath: string, contents: string[] | string | object) {
+    async function write(relativePath: string, contents?: string[] | string | object) {
       const fullPath = path.join(packagePath, relativePath);
       const dir = path.dirname(fullPath);
       await fs.mkdirp(dir);
 
-      let data;
-      if (typeof contents === 'string') {
-        data = contents.trimLeft(); // trim first newline
-      } else if (Array.isArray(contents)) {
-        data = contents.join('\n');
-      } else if (typeof contents === 'object') {
-        data = JSON.stringify(contents, undefined, 2);
-      } else {
-        throw new Error('Invalid type of contents: ' + contents);
+      if (contents) {
+        let data;
+        if (typeof contents === 'string') {
+          data = contents.trimLeft(); // trim first newline
+        } else if (Array.isArray(contents)) {
+          data = contents.join('\n');
+        } else if (typeof contents === 'object') {
+          data = JSON.stringify(contents, undefined, 2);
+        } else {
+          throw new Error('Invalid type of contents: ' + contents);
+        }
+        await fs.writeFile(fullPath, data + '\n');
       }
-
-      await fs.writeFile(fullPath, data + '\n');
     }
 
     console.log(`generating module for ${module.packageName}...`);
@@ -257,14 +258,7 @@ async function main() {
       `export * from './${lowcaseModuleName}.generated';`,
     ]);
 
-    await write(`test/${lowcaseModuleName}.test.ts`, [
-      "import '@aws-cdk/assertions';",
-      "import {} from '../lib';",
-      '',
-      "test('No tests are specified for this package', () => {",
-      '  expect(true).toBe(true);',
-      '});',
-    ]);
+    await write('test/');
 
     await pkglint.createLibraryReadme(namespace, path.join(packagePath, 'README.md'));
 
