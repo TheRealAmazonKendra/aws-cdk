@@ -45,11 +45,8 @@ while [[ "${1:-}" != "" ]]; do
     esac
     shift
 done
-if [ "$run_tests" == "true" ]; then
-  runtarget="$runtarget+test"
-fi
 
-export NODE_OPTIONS="--max-old-space-size=4096 --experimental-worker ${NODE_OPTIONS:-}"
+export NODE_OPTIONS="--max-old-space-size=32768 --experimental-worker ${NODE_OPTIONS:-}"
 
 individual_packages_folder=${scriptdir}/../packages/individual-packages
 # copy & build the packages that are individually released from 'aws-cdk-lib'
@@ -59,6 +56,8 @@ cd "$individual_packages_folder"
 createSymlinks "$individual_packages_folder"
 
 if [ "$skip_build" != "true" ]; then
-  TRANSFORM_CONCURRENCY=${TRANSFORM_CONCURRENCY:-8}
-  PHASE=transform yarn lerna run --stream --concurrency ${TRANSFORM_CONCURRENCY} $runtarget
+  PHASE=transform yarn lerna run --stream build
+  if [ "$run_tests" == "true" ]; then
+    PHASE=transform yarn lerna run test --parallel
+  fi
 fi
