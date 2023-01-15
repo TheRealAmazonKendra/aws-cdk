@@ -47,7 +47,7 @@ async function main() {
 
   const testFiles = await unitTestFiles();
   if (testFiles.length > 0) {
-    await shell([args.jest], unitTestOptions);
+    await shell([args.jest, '--maxWorkers=50%'], unitTestOptions);
   }
 
   // Run integration test if the package has integ test files
