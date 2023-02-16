@@ -23,4 +23,6 @@ jobs:
          npm -g install npm-check-updates
       - name: Upgrade Dependencies
         run: |-
+          export AWS_ACCOUNT=123456789012
+          export AWS_REGION=us-west-2
           ncu --upgrade --workspaces --doctor --doctorTest="yarn build" --verbose
