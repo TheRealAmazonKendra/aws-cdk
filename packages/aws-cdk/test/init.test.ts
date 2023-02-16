@@ -14,9 +14,9 @@ import * as cxapi from '@aws-cdk/cx-api';
 import * as fs from 'fs-extra';
 import { availableInitTemplates, cliInit } from '../lib/init';
 
-describe.each(['1', '2'])('v%s tests', (majorVersion) => {
+describe('v1 tests', () => {
   beforeEach(() => {
-    mockMajorVersion = `${majorVersion}.0.0`;
+    mockMajorVersion = '1.0.0';
     jest.resetAllMocks();
   });
 
