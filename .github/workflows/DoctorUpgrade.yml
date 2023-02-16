@@ -1,0 +1,26 @@
+name: Doctor Update
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  upgrade: 
+    name: Doctor Upgrade
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v3
+        
+      - name: Setup Node
+        uses: actions-setup-node@v3
+        with:
+          node-version: 14
+          
+      - name: Tools Install
+        run: |-
+         npm -g install npm-check-updates
+      - name: Upgrade Dependencies
+        run: |-
+          ncu --upgrade --workspaces --doctor --doctorTest="yarn build" --verbose
