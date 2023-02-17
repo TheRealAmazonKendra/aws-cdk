@@ -25,5 +25,5 @@ jobs:
         run: |-
           ncu --upgrade --workspaces --doctor --doctorTest="yarn build" --verbose
         env:
-          CDK_DEPLOY_ACCOUNT: 123456789012
-          CDK_DEPLOY_REGION: us-west-2
+          CDK_INTEG_ACCOUNT: 123456789012
+          CDK_INTEG_REGION: us-west-2
