@@ -9,9 +9,6 @@ env:
 phases:
   install:
     commands:
-      # CodeBuild always runs as root, allow npm to operate as such
-      - npm config set unsafe-perm true
-
       # Install yarn if it wasn't already present in the image
       - yarn --version || npm -g install yarn
 
