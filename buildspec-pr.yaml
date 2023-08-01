@@ -10,6 +10,8 @@ phases:
   install:
     commands:
       # Install yarn if it wasn't already present in the image
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
       - yarn --version || npm -g install yarn
 
       # Packing aws-cdk-lib can cause memory errors. Increasing this value
