@@ -2,6 +2,237 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.89.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.88.0-alpha.0...v2.89.0-alpha.0) (2023-07-28)
+
+
+### Features
+
+* **app-staging-synthesizer:** option to specify staging stack name prefix ([#26324](https://github.com/aws/aws-cdk/issues/26324)) ([1b36124](https://github.com/aws/aws-cdk/commit/1b3612457078f8195fb5a73b9f0e44caf99fae96))
+* **apprunner:** make `Service` implement `IGrantable` ([#26130](https://github.com/aws/aws-cdk/issues/26130)) ([6033c9a](https://github.com/aws/aws-cdk/commit/6033c9a01322be74f8ae7ddd0a3856cc22e28975)), closes [#26089](https://github.com/aws/aws-cdk/issues/26089)
+* **neptune-alpha:** support for Neptune serverless ([#26445](https://github.com/aws/aws-cdk/issues/26445)) ([b42dbc8](https://github.com/aws/aws-cdk/commit/b42dbc800eabff64bc86cb8fb5629c2ce7496767)), closes [#26428](https://github.com/aws/aws-cdk/issues/26428)
+* **scheduler:** ScheduleGroup ([#26196](https://github.com/aws/aws-cdk/issues/26196)) ([27dc8ff](https://github.com/aws/aws-cdk/commit/27dc8ffd62d450154ab2574cc453bb5fcdd7c0b8))
+
+
+### Bug Fixes
+
+* **cli-lib:** set skipLibCheck on generateSchema to prevent intermittent test failures ([#26551](https://github.com/aws/aws-cdk/issues/26551)) ([1807f57](https://github.com/aws/aws-cdk/commit/1807f5754885e4b1b1c8d12ca7a1cc7efab9ef2c))
+
+## [2.88.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.87.0-alpha.0...v2.88.0-alpha.0) (2023-07-20)
+
+
+### ⚠ BREAKING CHANGES TO EXPERIMENTAL FEATURES
+
+* **apprunner-alpha:** This change will be destructive if the `serviceName` is set on an existing resources.
+
+### Features
+
+* **glue:** support Data Quality ruleset ([#26272](https://github.com/aws/aws-cdk/issues/26272)) ([af3a188](https://github.com/aws/aws-cdk/commit/af3a18810847e68aa55865e380b5e4d7f9ba5edf))
+* **glue:** validate maxCapacity, workerCount, and workerType ([#26241](https://github.com/aws/aws-cdk/issues/26241)) ([349e4d4](https://github.com/aws/aws-cdk/commit/349e4d4401eb6b785ebc325905a212a41d664e1f))
+* **iot-actions:** iot rule https action l2 construct ([#25535](https://github.com/aws/aws-cdk/issues/25535)) ([3aee826](https://github.com/aws/aws-cdk/commit/3aee82692533a12ee44953ec4039d7cc8d6129e3)), closes [#25491](https://github.com/aws/aws-cdk/issues/25491)
+* **synthetics:** lifecycle rules for auto-generated artifact buckets ([#26290](https://github.com/aws/aws-cdk/issues/26290)) ([ad0d40c](https://github.com/aws/aws-cdk/commit/ad0d40cc3a75f1cadc044393b5cb3ec7e9ab71a4)), closes [#22863](https://github.com/aws/aws-cdk/issues/22863) [#22634](https://github.com/aws/aws-cdk/issues/22634)
+
+
+### Bug Fixes
+
+* **apprunner-alpha:** respect serviceName property ([#26238](https://github.com/aws/aws-cdk/issues/26238)) ([6da9a4c](https://github.com/aws/aws-cdk/commit/6da9a4c13444d82061ffd7d1f9326ca03c2bf367)), closes [#26237](https://github.com/aws/aws-cdk/issues/26237)
+* **batch:** grant execution role logs:CreateLogStream by default ([#26288](https://github.com/aws/aws-cdk/issues/26288)) ([c755f50](https://github.com/aws/aws-cdk/commit/c755f50f7d2240345c3e9ee1c262a3b194db1618)), closes [#25675](https://github.com/aws/aws-cdk/issues/25675)
+* **batch:** SSM parameters can't be used as ECS Container secrets ([#26373](https://github.com/aws/aws-cdk/issues/26373)) ([bc3d6a7](https://github.com/aws/aws-cdk/commit/bc3d6a7a82fb76c3ab3915abf4ba9660a65b3414)), closes [#26339](https://github.com/aws/aws-cdk/issues/26339)
+* **integ-tests-alpha:** assertions handler is broken ([#26400](https://github.com/aws/aws-cdk/issues/26400)) ([111a1cf](https://github.com/aws/aws-cdk/commit/111a1cfce0aaa7497ebd1e966f76bb3ed485d857)), closes [#26271](https://github.com/aws/aws-cdk/issues/26271) [#26359](https://github.com/aws/aws-cdk/issues/26359) [#26360](https://github.com/aws/aws-cdk/issues/26360)
+* **integ-tests-alpha:** incorrect sdk client resolution ([#26271](https://github.com/aws/aws-cdk/issues/26271)) ([17e343a](https://github.com/aws/aws-cdk/commit/17e343adbd815adb276ec4ccdf5eba2d8b39607a))
+* **redshift-alpha:** incorrect CR runtime version ([#26406](https://github.com/aws/aws-cdk/issues/26406)) ([c8d8421](https://github.com/aws/aws-cdk/commit/c8d8421370800384322b37b43c9644d3afec922d)), closes [#26397](https://github.com/aws/aws-cdk/issues/26397)
+* **synthetics:** asset code validation failed on bundled assets ([#26291](https://github.com/aws/aws-cdk/issues/26291)) ([02a5482](https://github.com/aws/aws-cdk/commit/02a5482263b993e02c57923bda5e186d72255ade)), closes [#19342](https://github.com/aws/aws-cdk/issues/19342) [#11630](https://github.com/aws/aws-cdk/issues/11630)
+
+## [2.87.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.86.0-alpha.0...v2.87.0-alpha.0) (2023-07-06)
+
+
+### Features
+
+* **cli-lib:** support bootstrap command ([#26205](https://github.com/aws/aws-cdk/issues/26205)) ([9364e94](https://github.com/aws/aws-cdk/commit/9364e94d1b343d18d1ceceee2881f2cc59d67980))
+* **glue:** add ExecutionClass for FLEX ([#26203](https://github.com/aws/aws-cdk/issues/26203)) ([db923dd](https://github.com/aws/aws-cdk/commit/db923dd2df39d4085ed088d18dc93044e5a0d690)), closes [#22224](https://github.com/aws/aws-cdk/issues/22224)
+* **iot:** add action to start Step Functions State Machine ([#26059](https://github.com/aws/aws-cdk/issues/26059)) ([bd86993](https://github.com/aws/aws-cdk/commit/bd86993cb2e528ae036347da82c86276165111e7)), closes [#17698](https://github.com/aws/aws-cdk/issues/17698)
+* **scheduler:** ScheduleTargetInput ([#25663](https://github.com/aws/aws-cdk/issues/25663)) ([bc9f3de](https://github.com/aws/aws-cdk/commit/bc9f3de653248de5808f83b7fb8f3ed5f6fc554e))
+
+
+### Bug Fixes
+
+* **batch:** Allow ECS JobDefinition Containers to pass Secrets as Environment Variables & Enable Kubernetes Secret Volumes ([#26126](https://github.com/aws/aws-cdk/issues/26126)) ([dc6f120](https://github.com/aws/aws-cdk/commit/dc6f120a0bf6c9335a82677e7b3c112245bf06ae)), closes [#25559](https://github.com/aws/aws-cdk/issues/25559)
+* **cli-lib:** bundle bootstrap template ([#26229](https://github.com/aws/aws-cdk/issues/26229)) ([41cb288](https://github.com/aws/aws-cdk/commit/41cb2883e637a429c9eeb30c48544b69dbc7b065)), closes [#26224](https://github.com/aws/aws-cdk/issues/26224)
+* **glue:** support Ray jobs with Runtime parameter ([#25867](https://github.com/aws/aws-cdk/issues/25867)) ([8153237](https://github.com/aws/aws-cdk/commit/81532375a8745bc7ffb439e53d042b251a43e43e)), closes [#25787](https://github.com/aws/aws-cdk/issues/25787)
+
+## [2.86.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.85.0-alpha.0...v2.86.0-alpha.0) (2023-06-29)
+
+
+### Features
+
+* **app-staging-synthesizer:** select different bootstrap region ([#26129](https://github.com/aws/aws-cdk/issues/26129)) ([2fec6a4](https://github.com/aws/aws-cdk/commit/2fec6a4cd09bd08b7183f1e67d5d7eb487e4ac29))
+* **integ-runner:** integ-runner --watch ([#26087](https://github.com/aws/aws-cdk/issues/26087)) ([1fe2f09](https://github.com/aws/aws-cdk/commit/1fe2f095a0bc0aafb6b2dbd0cdaae79cc2e59ddd))
+* **integ-tests:** new HttpApiCall method to easily make http calls ([#26102](https://github.com/aws/aws-cdk/issues/26102)) ([00b9c84](https://github.com/aws/aws-cdk/commit/00b9c84ecf17c05a4c794ba7b5bdc9d83b2fba16))
+
+
+### Bug Fixes
+
+* **batch-alpha:** cannot import FargateComputeEnvironment with fromFargateComputeEnvironmentArn ([#25985](https://github.com/aws/aws-cdk/issues/25985)) ([05810f4](https://github.com/aws/aws-cdk/commit/05810f44f3fa008c07c6fe39bacd2a00c52b32a0)), closes [40aws-cdk/aws-batch-alpha/lib/managed-compute-environment.ts#L1071](https://github.com/40aws-cdk/aws-batch-alpha/lib/managed-compute-environment.ts/issues/L1071) [40aws-cdk/aws-batch-alpha/lib/managed-compute-environment.ts#L1077-L1079](https://github.com/40aws-cdk/aws-batch-alpha/lib/managed-compute-environment.ts/issues/L1077-L1079) [#25979](https://github.com/aws/aws-cdk/issues/25979)
+
+## [2.85.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.84.0-alpha.0...v2.85.0-alpha.0) (2023-06-21)
+
+
+### Features
+
+* **app-staging-synthesizer:** clean up staging resources on deletion ([#25906](https://github.com/aws/aws-cdk/issues/25906)) ([3b14213](https://github.com/aws/aws-cdk/commit/3b142136524db7c1e9bff1a082b87219ea9ee1ff)), closes [#25722](https://github.com/aws/aws-cdk/issues/25722)
+* **batch:** `ephemeralStorage` property on job definitions ([#25399](https://github.com/aws/aws-cdk/issues/25399)) ([a8768f4](https://github.com/aws/aws-cdk/commit/a8768f4da1bebbc4fd45b40e92ed82e868bb2a1b)), closes [#25393](https://github.com/aws/aws-cdk/issues/25393)
+
+
+### Bug Fixes
+
+* **apprunner:** incorrect serviceName  ([#26015](https://github.com/aws/aws-cdk/issues/26015)) ([ad89f01](https://github.com/aws/aws-cdk/commit/ad89f0182e218eee01b0aef84b055a96556dda59)), closes [#26002](https://github.com/aws/aws-cdk/issues/26002)
+
+## [2.84.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.83.1-alpha.0...v2.84.0-alpha.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* **batch:** computeEnvironmentName is not set in FargateComputeEnvironment ([#25944](https://github.com/aws/aws-cdk/issues/25944)) ([fb9f559](https://github.com/aws/aws-cdk/commit/fb9f559ba0c40f5df5dc6d2a856d88826913eed4))
+
+## [2.83.1-alpha.0](https://github.com/aws/aws-cdk/compare/v2.83.0-alpha.0...v2.83.1-alpha.0) (2023-06-09)
+
+## [2.83.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.82.0-alpha.0...v2.83.0-alpha.0) (2023-06-07)
+
+
+### Features
+
+* **cloud9:** support setting automaticStopTimeMinutes ([#25593](https://github.com/aws/aws-cdk/issues/25593)) ([437345e](https://github.com/aws/aws-cdk/commit/437345e2ca72e67714334f4b9cb7da8f23c4a970)), closes [#25592](https://github.com/aws/aws-cdk/issues/25592)
+
+## [2.82.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.81.0-alpha.0...v2.82.0-alpha.0) (2023-06-01)
+
+
+### Features
+
+* **synthetics:** support runtime nodejs puppeteer 4.0 ([#25553](https://github.com/aws/aws-cdk/issues/25553)) ([1d7a9a8](https://github.com/aws/aws-cdk/commit/1d7a9a80b08d41ce8759bed9286adaa8259c2bc8)), closes [#25493](https://github.com/aws/aws-cdk/issues/25493)
+* **app-staging-synthesizer:** new synthesizer separates assets out per CDK application  ([#24430](https://github.com/aws/aws-cdk/issues/24430)) ([ae21ecc](https://github.com/aws/aws-cdk/commit/ae21ecc2a72be14ececdf0c5b8649e49dc456b0c))
+
+## [2.81.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.80.0-alpha.0...v2.81.0-alpha.0) (2023-05-25)
+
+
+### Features
+
+* **batch-alpha:** tag instances launched from your managed CEs ([#25643](https://github.com/aws/aws-cdk/issues/25643)) ([8498740](https://github.com/aws/aws-cdk/commit/849874045cd1e877619c3b636e6f16a58c85b4a1))
+
+## [2.80.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.79.1-alpha.0...v2.80.0-alpha.0) (2023-05-19)
+
+## [2.79.1-alpha.0](https://github.com/aws/aws-cdk/compare/v2.79.0-alpha.0...v2.79.1-alpha.0) (2023-05-11)
+
+## [2.79.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.78.0-alpha.0...v2.79.0-alpha.0) (2023-05-10)
+
+
+### Bug Fixes
+
+* **servicecatalogappregistry:** Revert deprecated method to keep deprecated method in alpha version ([b20b123](https://github.com/aws/aws-cdk/commit/b20b1f231e12007e7d064cdc4f0c9dc7354827a3))
+* **batch:** JobDefinition's ContainerDefinition's Image is synthesized with `[Object object]` ([#25250](https://github.com/aws/aws-cdk/issues/25250)) ([b3d0d57](https://github.com/aws/aws-cdk/commit/b3d0d570fe02e124f4497e35eb87c96c0eb8a1d5))
+
+## [2.78.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.77.0-alpha.0...v2.78.0-alpha.0) (2023-05-03)
+
+## [2.77.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.76.0-alpha.0...v2.77.0-alpha.0) (2023-04-26)
+
+## [2.76.1-alpha.0](https://github.com/aws/aws-cdk/compare/v2.76.0-alpha.0...v2.76.1-alpha.0) (2023-04-21)
+
+## [2.76.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.75.1-alpha.0...v2.76.0-alpha.0) (2023-04-19)
+
+## [2.75.1-alpha.0](https://github.com/aws/aws-cdk/compare/v2.75.0-alpha.0...v2.75.1-alpha.0) (2023-04-18)
+
+## [2.75.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.74.0-alpha.0...v2.75.0-alpha.0) (2023-04-17)
+
+## [2.74.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.73.0-alpha.0...v2.74.0-alpha.0) (2023-04-13)
+
+## [2.73.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.72.1-alpha.0...v2.73.0-alpha.0) (2023-04-05)
+
+## [2.72.1-alpha.0](https://github.com/aws/aws-cdk/compare/v2.72.0-alpha.0...v2.72.1-alpha.0) (2023-03-30)
+
+## [2.72.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.71.0-alpha.0...v2.72.0-alpha.0) (2023-03-29)
+
+
+### ⚠ BREAKING CHANGES TO EXPERIMENTAL FEATURES
+
+* **servicecatalogappregistry:** This commit involves share replacement during the deployment of `ApplicationAssociator` due to share construct id update. After this change, frequent share replacements due to structural change in `Application` construct should be avoided. `Application.shareApplication` starts to require construct id (first argument) and share name (added in `ShareOption`) as input.
+* **ivs:** Renamed ChannelProps.name to ChannelProps.channelName
+* Renamed PlaybackKeyPairProps.name to PlaybackKeyPairProps.playbackKeyPairName
+* Channel now generates a physical name if one is not provided
+* PlaybackKeyPair now generates a physical name if one is not provided
+
+### Bug Fixes
+
+* **integ-runner:** update workflow doesn't support resource replacement ([#24720](https://github.com/aws/aws-cdk/issues/24720)) ([07d3aa7](https://github.com/aws/aws-cdk/commit/07d3aa74e6c1a7b3b7ddf298cf3cc4b7ff180b48))
+* **ivs:** Not a standard physical name pattern ([#24706](https://github.com/aws/aws-cdk/issues/24706)) ([7d17fe3](https://github.com/aws/aws-cdk/commit/7d17fe32d20cd847733bffdd899c4659a7b0003c))
+* **servicecatalogappregistry:** RAM Share is replaced on every change to Application ([#24760](https://github.com/aws/aws-cdk/issues/24760)) ([8977d0d](https://github.com/aws/aws-cdk/commit/8977d0d2b567c9fcf32076b66f2dcb7f993bb22a))
+
+## [2.71.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.70.0-alpha.0...v2.71.0-alpha.0) (2023-03-28)
+
+## [2.70.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.69.0-alpha.0...v2.70.0-alpha.0) (2023-03-22)
+
+
+### ⚠ BREAKING CHANGES TO EXPERIMENTAL FEATURES
+
+* **servicecatalogappregistry:** This commit contains destructive changes to the RAM Share.
+Since the application RAM share name is calculated by the application construct, where one method is added. Integration test detects a breaking change where RAM share will be created. Integration test snapshot is updated to cater this destructive change.
+
+### Features
+
+* **servicecatalogappregistry:** add attribute groups to an application ([#24672](https://github.com/aws/aws-cdk/issues/24672)) ([7baffa2](https://github.com/aws/aws-cdk/commit/7baffa239a7904cd73ac73537101ed5bd40aa9a0))
+
+## [2.69.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.68.0-alpha.0...v2.69.0-alpha.0) (2023-03-14)
+
+
+### Features
+
+* **kinesisanalytics-flink:** VPC support for Flink applications ([#24442](https://github.com/aws/aws-cdk/issues/24442)) ([7c7ad6d](https://github.com/aws/aws-cdk/commit/7c7ad6d18bd0d48a30858c1964d27d8a02b274ae)), closes [40aws-cdk/aws-lambda/lib/function.ts#L170](https://github.com/40aws-cdk/aws-lambda/lib/function.ts/issues/L170) [#21104](https://github.com/aws/aws-cdk/issues/21104)
+
+## [2.68.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.67.0-alpha.0...v2.68.0-alpha.0) (2023-03-08)
+
+
+### ⚠ BREAKING CHANGES TO EXPERIMENTAL FEATURES
+
+* **servicecatalogappregistry:** This commit contains destructive changes to the RAM Share.
+Since the application RAM share name is calculated by the application construct, where one property is removed. Integration test detects a breaking change where RAM share will be created. Integration test snapshot is updated to cater this destructive change.
+
+### Features
+
+* **msk:** add Kafka version 3.3.2 ([#24440](https://github.com/aws/aws-cdk/issues/24440)) ([1b2014e](https://github.com/aws/aws-cdk/commit/1b2014eef9e3f2190b2cce79c55f635cc1f167e3)), closes [#24432](https://github.com/aws/aws-cdk/issues/24432)
+* **redshift:** column compression encodings and comments can now be customised ([#24177](https://github.com/aws/aws-cdk/issues/24177)) ([1ca3e00](https://github.com/aws/aws-cdk/commit/1ca3e0027323e84aacade4d9bd058bbc5687a7ab)), closes [#24165](https://github.com/aws/aws-cdk/issues/24165) [#23597](https://github.com/aws/aws-cdk/issues/23597) [#22506](https://github.com/aws/aws-cdk/issues/22506)
+* **redshift:** columns require an id attribute (under feature flag) ([#24272](https://github.com/aws/aws-cdk/issues/24272)) ([9a07ab0](https://github.com/aws/aws-cdk/commit/9a07ab008d1b6d23e9a302921f1a5165a21fb128)), closes [#24234](https://github.com/aws/aws-cdk/issues/24234)
+
+
+### Bug Fixes
+
+* **servicecatalogappregistry:** allow disabling automatic CfnOutput ([#24483](https://github.com/aws/aws-cdk/issues/24483)) ([3db1a0d](https://github.com/aws/aws-cdk/commit/3db1a0d0bcf615871a225919eed235b78904e144)), closes [#23779](https://github.com/aws/aws-cdk/issues/23779)
+* **servicecatalogappregistry:** Associate an application with attribute group ([#24378](https://github.com/aws/aws-cdk/issues/24378)) ([d1264c1](https://github.com/aws/aws-cdk/commit/d1264c1c414257fb8dd5288fdc24cfe9605cdf90))
+
+## [2.67.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.66.1-alpha.0...v2.67.0-alpha.0) (2023-03-02)
+
+
+### Features
+
+* **msk:** add Kafka versions 3.1.1, 3.2.0, and  and 3.3.1 ([#23918](https://github.com/aws/aws-cdk/issues/23918)) ([53a1d5f](https://github.com/aws/aws-cdk/commit/53a1d5fd81eabf5e9d846411754a554549f9f62c)), closes [#23899](https://github.com/aws/aws-cdk/issues/23899)
+
+
+### Bug Fixes
+
+* **servicecatalogappregistry:** applicationName can not be changed after deployment ([#24409](https://github.com/aws/aws-cdk/issues/24409)) ([6aa763f](https://github.com/aws/aws-cdk/commit/6aa763f100e5561f4554627116a458abba930480))
+
+## [2.66.1-alpha.0](https://github.com/aws/aws-cdk/compare/v2.66.0-alpha.0...v2.66.1-alpha.0) (2023-02-23)
+
+## [2.66.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.65.0-alpha.0...v2.66.0-alpha.0) (2023-02-21)
+
+
+### Features
+
+* **apigatewayv2:** allow websockets routes to return response to client ([#22984](https://github.com/aws/aws-cdk/issues/22984)) ([f8fe1d2](https://github.com/aws/aws-cdk/commit/f8fe1d292feb3fc39a99687bf454a829302c4ff5))
+* **lambda-python:** add optional poetry bundling exclusion list parameter ([#23670](https://github.com/aws/aws-cdk/issues/23670)) ([53beeae](https://github.com/aws/aws-cdk/commit/53beeaed04bfe295e9f840e65f9c89db00cac692)), closes [#22585](https://github.com/aws/aws-cdk/issues/22585) [#22585](https://github.com/aws/aws-cdk/issues/22585)
+* **redshift:** optionally reboot Clusters to apply parameter changes  ([#22063](https://github.com/aws/aws-cdk/issues/22063)) ([f61d950](https://github.com/aws/aws-cdk/commit/f61d950aaeba13bd6501b7c8971a9115f4a53f08)), closes [#22009](https://github.com/aws/aws-cdk/issues/22009) [#22055](https://github.com/aws/aws-cdk/issues/22055) [#22059](https://github.com/aws/aws-cdk/issues/22059)
+
+
+### Bug Fixes
+
+* **servicecatalogappregistry:** Allow user to control stack id via stack name for Application stack ([#24171](https://github.com/aws/aws-cdk/issues/24171)) ([0c7c7e4](https://github.com/aws/aws-cdk/commit/0c7c7e4a7c34957ff7877eda5171f82c5feaba1d)), closes [#24160](https://github.com/aws/aws-cdk/issues/24160)
+
 ## [2.65.0-alpha.0](https://github.com/aws/aws-cdk/compare/v2.64.0-alpha.0...v2.65.0-alpha.0) (2023-02-15)
 
 

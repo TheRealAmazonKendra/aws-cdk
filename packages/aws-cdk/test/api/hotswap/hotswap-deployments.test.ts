@@ -1,7 +1,8 @@
+/* eslint-disable import/order */
 import { Lambda, StepFunctions } from 'aws-sdk';
+import * as setup from './hotswap-test-setup';
 import { CfnEvaluationException } from '../../../lib/api/evaluate-cloudformation-template';
 import { HotswapMode } from '../../../lib/api/hotswap/common';
-import * as setup from './hotswap-test-setup';
 
 let hotswapMockSdkProvider: setup.HotswapMockSdkProvider;
 let mockUpdateLambdaCode: (params: Lambda.Types.UpdateFunctionCodeRequest) => Lambda.Types.FunctionConfiguration;

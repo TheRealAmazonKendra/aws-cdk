@@ -1,6 +1,7 @@
+/* eslint-disable import/order */
 import { AppSync } from 'aws-sdk';
-import { HotswapMode } from '../../../lib/api/hotswap/common';
 import * as setup from './hotswap-test-setup';
+import { HotswapMode } from '../../../lib/api/hotswap/common';
 
 let hotswapMockSdkProvider: setup.HotswapMockSdkProvider;
 let mockUpdateResolver: (params: AppSync.UpdateResolverRequest) => AppSync.UpdateResolverResponse;

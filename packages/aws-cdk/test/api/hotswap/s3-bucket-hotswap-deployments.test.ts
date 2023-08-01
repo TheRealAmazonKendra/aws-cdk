@@ -1,7 +1,8 @@
+/* eslint-disable import/order */
 import { Lambda } from 'aws-sdk';
+import * as setup from './hotswap-test-setup';
 import { HotswapMode } from '../../../lib/api/hotswap/common';
 import { REQUIRED_BY_CFN } from '../../../lib/api/hotswap/s3-bucket-deployments';
-import * as setup from './hotswap-test-setup';
 
 let mockLambdaInvoke: (params: Lambda.Types.InvocationRequest) => Lambda.Types.InvocationResponse;
 let hotswapMockSdkProvider: setup.HotswapMockSdkProvider;
