@@ -19,8 +19,6 @@ jobs:
         with:
           node-version: 18.x
       - name: Install dependencies
-        run: |
-          - npm -g install yarn 
-          - yarn install --check-files
+        run: npm -g install yarn 
       - name: Build
         run: yarn build
