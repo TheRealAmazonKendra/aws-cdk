@@ -29,7 +29,8 @@
        "Action": [
         "s3:DeleteObject*",
         "s3:GetBucket*",
-        "s3:List*"
+        "s3:List*",
+        "s3:PutBucketPolicy"
        ],
        "Effect": "Allow",
        "Principal": {
@@ -116,7 +117,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "216218e507a977a1bb3592f29c1a62ab3e0a9eb25569109a395315638e154329.zip"
+     "S3Key": "2ec8ad9e91dcd6e7ad6a5c84ffc6c9c05c408aca3b26ceb2816d81043e6c4dc3.zip"
     },
     "Timeout": 900,
     "MemorySize": 128,
@@ -432,6 +433,9 @@
    "ap-southeast-3": {
     "endpoint": "s3-website.ap-southeast-3.amazonaws.com"
    },
+   "ap-southeast-4": {
+    "endpoint": "s3-website.ap-southeast-4.amazonaws.com"
+   },
    "ca-central-1": {
     "endpoint": "s3-website.ca-central-1.amazonaws.com"
    },
@@ -464,6 +468,9 @@
    },
    "eu-west-3": {
     "endpoint": "s3-website.eu-west-3.amazonaws.com"
+   },
+   "il-central-1": {
+    "endpoint": "s3-website.il-central-1.amazonaws.com"
    },
    "me-central-1": {
     "endpoint": "s3-website.me-central-1.amazonaws.com"

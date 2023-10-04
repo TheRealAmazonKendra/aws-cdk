@@ -5,11 +5,15 @@ import * as kms from '../../aws-kms';
 import * as logs from '../../aws-logs';
 import * as s3 from '../../aws-s3';
 import * as cdk from '../../core';
-import { RemovalPolicy, Stack } from '../../core';
+import { RemovalPolicy, Stack, Annotations as CoreAnnotations } from '../../core';
+import {
+  RDS_PREVENT_RENDERING_DEPRECATED_CREDENTIALS,
+  AURORA_CLUSTER_CHANGE_SCOPE_OF_INSTANCE_PARAMETER_GROUP_WITH_EACH_PARAMETERS,
+} from '../../cx-api';
 import {
   AuroraEngineVersion, AuroraMysqlEngineVersion, AuroraPostgresEngineVersion, CfnDBCluster, Credentials, DatabaseCluster,
   DatabaseClusterEngine, DatabaseClusterFromSnapshot, ParameterGroup, PerformanceInsightRetention, SubnetGroup, DatabaseSecret,
-  DatabaseInstanceEngine, SqlServerEngineVersion, SnapshotCredentials, InstanceUpdateBehaviour, NetworkType, ClusterInstance,
+  DatabaseInstanceEngine, SqlServerEngineVersion, SnapshotCredentials, InstanceUpdateBehaviour, NetworkType, ClusterInstance, CaCertificate,
 } from '../lib';
 
 describe('cluster new api', () => {
@@ -476,6 +480,29 @@ describe('cluster new api', () => {
     });
   });
 
+  describe('instanceIdentifiers', () => {
+    test('should contain writer and reader instance IDs', () => {
+      //GIVEN
+      const stack = testStack();
+      const vpc = new ec2.Vpc(stack, 'VPC');
+
+      //WHEN
+      const cluster = new DatabaseCluster(stack, 'Database', {
+        engine: DatabaseClusterEngine.AURORA,
+        vpc,
+        writer: ClusterInstance.serverlessV2('writer'),
+        readers: [ClusterInstance.serverlessV2('reader')],
+        iamAuthentication: true,
+      });
+
+      //THEN
+      expect(cluster.instanceIdentifiers).toHaveLength(2);
+      expect(stack.resolve(cluster.instanceIdentifiers[0])).toEqual({
+        Ref: 'Databasewriter2462CC03',
+      });
+    });
+  });
+
   describe('provisioned writer with serverless readers', () => {
     test('serverless reader in promotion tier 2 throws warning', () => {
       // GIVEN
@@ -507,6 +534,89 @@ describe('cluster new api', () => {
       });
 
       Annotations.fromStack(stack).hasWarning('*',
+        `Cluster ${cluster.node.id} only has serverless readers and no reader is in promotion tier 0-1.`+
+        'Serverless readers in promotion tiers >= 2 will NOT scale with the writer, which can lead to '+
+        'availability issues if a failover event occurs. It is recommended that at least one reader '+
+        'has `scaleWithWriter` set to true [ack: @aws-cdk/aws-rds:noFailoverServerlessReaders]',
+      );
+    });
+
+    test('serverless reader in promotion tier 2 does not throws', () => {
+      // GIVEN
+      const stack = testStack();
+      const vpc = new ec2.Vpc(stack, 'VPC');
+
+      // WHEN
+      const cluster = new DatabaseCluster(stack, 'Database', {
+        engine: DatabaseClusterEngine.AURORA,
+        vpc,
+        writer: ClusterInstance.provisioned('writer'),
+        readers: [ClusterInstance.serverlessV2('reader')],
+        iamAuthentication: true,
+      });
+
+      CoreAnnotations.of(stack).acknowledgeWarning('RDSNoFailoverServerlessReaders');
+      // THEN
+      const template = Template.fromStack(stack);
+      template.resourceCountIs('AWS::RDS::DBInstance', 2);
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBInstanceClass: 'db.t3.medium',
+        PromotionTier: 0,
+      });
+
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBInstanceClass: 'db.serverless',
+        PromotionTier: 2,
+      });
+
+      Annotations.fromStack(stack).hasNoWarning('*',
+        `Cluster ${cluster.node.id} only has serverless readers and no reader is in promotion tier 0-1.`+
+        'Serverless readers in promotion tiers >= 2 will NOT scale with the writer, which can lead to '+
+        'availability issues if a failover event occurs. It is recommended that at least one reader '+
+        'has `scaleWithWriter` set to true',
+      );
+    });
+
+    test('serverless reader in promotion tier 2 does not throws with root context', () => {
+      // GIVEN
+      const app = new cdk.App({
+        context: {
+          ACKNOWLEDGEMENTS_CONTEXT_KEY: {
+            RDSNoFailoverServerlessReaders: ['Default/Database'],
+
+          },
+        },
+      });
+      const stack = testStack(app);
+      const vpc = new ec2.Vpc(stack, 'VPC');
+
+      // WHEN
+      const cluster = new DatabaseCluster(stack, 'Database', {
+        engine: DatabaseClusterEngine.AURORA,
+        vpc,
+        writer: ClusterInstance.provisioned('writer'),
+        readers: [ClusterInstance.serverlessV2('reader')],
+        iamAuthentication: true,
+      });
+
+      // THEN
+      const template = Template.fromStack(stack);
+      template.resourceCountIs('AWS::RDS::DBInstance', 2);
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBInstanceClass: 'db.t3.medium',
+        PromotionTier: 0,
+      });
+
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBInstanceClass: 'db.serverless',
+        PromotionTier: 2,
+      });
+
+      Annotations.fromStack(stack).hasNoWarning('*',
         `Cluster ${cluster.node.id} only has serverless readers and no reader is in promotion tier 0-1.`+
         'Serverless readers in promotion tiers >= 2 will NOT scale with the writer, which can lead to '+
         'availability issues if a failover event occurs. It is recommended that at least one reader '+
@@ -591,7 +701,7 @@ describe('cluster new api', () => {
         'For high availability any serverless instances in promotion tiers 0-1 '+
         'should be able to scale to match the provisioned instance capacity.\n'+
         'Serverless instance reader is in promotion tier 1,\n'+
-        `But can not scale to match the provisioned writer instance (${instanceType.toString()})`,
+        `But can not scale to match the provisioned writer instance (${instanceType.toString()}) [ack: @aws-cdk/aws-rds:serverlessInstanceCantScaleWithWriter]`,
       );
     });
   });
@@ -674,7 +784,7 @@ describe('cluster new api', () => {
         'InstanceSize as the writer. Any of these instances could be chosen as the new writer in the event '+
         'of a failover.\n'+
         'Writer InstanceSize: m5.24xlarge\n'+
-        'Reader InstanceSizes: t3.medium, m5.xlarge',
+        'Reader InstanceSizes: t3.medium, m5.xlarge [ack: @aws-cdk/aws-rds:provisionedReadersDontMatchWriter]',
       );
     });
 
@@ -716,6 +826,46 @@ describe('cluster new api', () => {
         DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
         DBInstanceClass: 'db.m5.24xlarge',
         PromotionTier: 1,
+      });
+
+      Annotations.fromStack(stack).hasNoWarning('*', '*');
+    });
+
+    test('can create with multiple readers with each parameters', () => {
+      // GIVEN
+      const stack = testStack();
+      stack.node.setContext(AURORA_CLUSTER_CHANGE_SCOPE_OF_INSTANCE_PARAMETER_GROUP_WITH_EACH_PARAMETERS, true);
+      const vpc = new ec2.Vpc(stack, 'VPC');
+
+      // WHEN
+      new DatabaseCluster(stack, 'Database', {
+        engine: DatabaseClusterEngine.AURORA,
+        vpc,
+        writer: ClusterInstance.provisioned('writer', {}),
+        readers: [
+          ClusterInstance.provisioned('reader', {
+            parameters: {},
+          }),
+          ClusterInstance.provisioned('reader2', {
+            parameters: {},
+          }),
+        ],
+      });
+
+      // THEN
+      const template = Template.fromStack(stack);
+      template.resourceCountIs('AWS::RDS::DBInstance', 3);
+      template.resourceCountIs('AWS::RDS::DBParameterGroup', 2);
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+      });
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBParameterGroupName: { Ref: 'DatabasereaderInstanceParameterGroupA66BCEF9' },
+      });
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBParameterGroupName: { Ref: 'Databasereader2InstanceParameterGroupD35BEBC4' },
       });
 
       Annotations.fromStack(stack).hasNoWarning('*', '*');
@@ -808,7 +958,7 @@ describe('cluster new api', () => {
       Annotations.fromStack(stack).hasWarning('*',
         'There are serverlessV2 readers in tier 2. Since there are no instances in a higher tier, '+
         'any instance in this tier is a failover target. Since this tier is > 1 the serverless reader will not scale '+
-        'with the writer which could lead to availability issues during failover.',
+        'with the writer which could lead to availability issues during failover. [ack: @aws-cdk/aws-rds:serverlessInHighestTier2-15]',
       );
 
       Annotations.fromStack(stack).hasWarning('*',
@@ -816,8 +966,56 @@ describe('cluster new api', () => {
         'InstanceSize as the writer. Any of these instances could be chosen as the new writer in the event '+
         'of a failover.\n'+
         'Writer InstanceSize: m5.24xlarge\n'+
-        'Reader InstanceSizes: m5.xlarge',
+        'Reader InstanceSizes: m5.xlarge [ack: @aws-cdk/aws-rds:provisionedReadersDontMatchWriter]',
       );
+    });
+
+    test('support CA certificate identifier on writer and readers', () => {
+      // GIVEN
+      const stack = testStack();
+      const vpc = new ec2.Vpc(stack, 'VPC');
+
+      // WHEN
+      new DatabaseCluster(stack, 'Database', {
+        engine: DatabaseClusterEngine.AURORA,
+        vpc,
+        writer: ClusterInstance.provisioned('writer', {
+          instanceType: ec2.InstanceType.of(ec2.InstanceClass.M5, ec2.InstanceSize.XLARGE24 ),
+          caCertificate: CaCertificate.RDS_CA_RDS4096_G1,
+        }),
+        readers: [
+          ClusterInstance.serverlessV2('reader', {
+            caCertificate: CaCertificate.RDS_CA_RDS2048_G1,
+          }),
+          ClusterInstance.provisioned('reader2', {
+            promotionTier: 1,
+            instanceType: ec2.InstanceType.of(ec2.InstanceClass.M5, ec2.InstanceSize.XLARGE24 ),
+            caCertificate: CaCertificate.of('custom-ca-id'),
+          }),
+        ],
+      });
+
+      // THEN
+      const template = Template.fromStack(stack);
+      template.resourceCountIs('AWS::RDS::DBInstance', 3);
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBInstanceClass: 'db.m5.24xlarge',
+        PromotionTier: 0,
+        CACertificateIdentifier: 'rds-ca-rsa4096-g1',
+      });
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBInstanceClass: 'db.serverless',
+        PromotionTier: 2,
+        CACertificateIdentifier: 'rds-ca-rsa2048-g1',
+      });
+      template.hasResourceProperties('AWS::RDS::DBInstance', {
+        DBClusterIdentifier: { Ref: 'DatabaseB269D8BB' },
+        DBInstanceClass: 'db.m5.24xlarge',
+        PromotionTier: 1,
+        CACertificateIdentifier: 'custom-ca-id',
+      });
     });
   });
 });
@@ -3149,6 +3347,56 @@ describe('cluster', () => {
         'Fn::Join': ['', ['{{resolve:secretsmanager:', { Ref: 'DBSecretD58955BC' }, ':SecretString:password::}}']],
       },
     });
+  });
+
+  test('secret from deprecated credentials is created with feature flag unset', () => {
+    // GIVEN
+    const stack = testStack();
+    stack.node.setContext(RDS_PREVENT_RENDERING_DEPRECATED_CREDENTIALS, false);
+
+    const vpc = new ec2.Vpc(stack, 'VPC');
+
+    const secret = new DatabaseSecret(stack, 'DBSecret', {
+      username: 'admin',
+      encryptionKey: new kms.Key(stack, 'PasswordKey'),
+    });
+
+    // WHEN
+    new DatabaseClusterFromSnapshot(stack, 'Database', {
+      engine: DatabaseClusterEngine.AURORA,
+      snapshotIdentifier: 'mySnapshot',
+      snapshotCredentials: SnapshotCredentials.fromSecret(secret),
+      writer: ClusterInstance.serverlessV2('writer'),
+      vpc,
+    });
+
+    // THEN
+    Template.fromStack(stack).resourceCountIs('AWS::SecretsManager::Secret', 2);
+  });
+
+  test('secret from deprecated credentials is not created with feature flag set', () => {
+    // GIVEN
+    const stack = testStack();
+    stack.node.setContext(RDS_PREVENT_RENDERING_DEPRECATED_CREDENTIALS, true);
+
+    const vpc = new ec2.Vpc(stack, 'VPC');
+
+    const secret = new DatabaseSecret(stack, 'DBSecret', {
+      username: 'admin',
+      encryptionKey: new kms.Key(stack, 'PasswordKey'),
+    });
+
+    // WHEN
+    new DatabaseClusterFromSnapshot(stack, 'Database', {
+      engine: DatabaseClusterEngine.AURORA,
+      snapshotIdentifier: 'mySnapshot',
+      snapshotCredentials: SnapshotCredentials.fromSecret(secret),
+      writer: ClusterInstance.serverlessV2('writer'),
+      vpc,
+    });
+
+    // THEN
+    Template.fromStack(stack).resourceCountIs('AWS::SecretsManager::Secret', 1);
   });
 
   test('create a cluster from a snapshot with encrypted storage', () => {

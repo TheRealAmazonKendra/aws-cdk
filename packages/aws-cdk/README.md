@@ -11,21 +11,21 @@
 
 The AWS CDK Toolkit provides the `cdk` command-line interface that can be used to work with AWS CDK applications.
 
-Command                               | Description
---------------------------------------|---------------------------------------------------------------------------------
-[`cdk docs`](#cdk-docs)               | Access the online documentation
-[`cdk init`](#cdk-init)               | Start a new CDK project (app or library)
-[`cdk list`](#cdk-list)               | List stacks in an application
-[`cdk synth`](#cdk-synthesize)        | Synthesize a CDK app to CloudFormation template(s)
-[`cdk diff`](#cdk-diff)               | Diff stacks against current state
-[`cdk deploy`](#cdk-deploy)           | Deploy a stack into an AWS account
-[`cdk import`](#cdk-import)           | Import existing AWS resources into a CDK stack
-[`cdk watch`](#cdk-watch)             | Watches a CDK app for deployable and hotswappable changes
-[`cdk destroy`](#cdk-destroy)         | Deletes a stack from an AWS account
-[`cdk bootstrap`](#cdk-bootstrap)     | Deploy a toolkit stack to support deploying large stacks & artifacts
-[`cdk doctor`](#cdk-doctor)           | Inspect the environment and produce information useful for troubleshooting
-[`cdk acknowledge`](#cdk-acknowledge) | Acknowledge (and hide) a notice by issue number
-[`cdk notices`](#cdk-notices)         | List all relevant notices for the application
+| Command                               | Description                                                                |
+| ------------------------------------- | -------------------------------------------------------------------------- |
+| [`cdk docs`](#cdk-docs)               | Access the online documentation                                            |
+| [`cdk init`](#cdk-init)               | Start a new CDK project (app or library)                                   |
+| [`cdk list`](#cdk-list)               | List stacks in an application                                              |
+| [`cdk synth`](#cdk-synthesize)        | Synthesize a CDK app to CloudFormation template(s)                         |
+| [`cdk diff`](#cdk-diff)               | Diff stacks against current state                                          |
+| [`cdk deploy`](#cdk-deploy)           | Deploy a stack into an AWS account                                         |
+| [`cdk import`](#cdk-import)           | Import existing AWS resources into a CDK stack                             |
+| [`cdk watch`](#cdk-watch)             | Watches a CDK app for deployable and hotswappable changes                  |
+| [`cdk destroy`](#cdk-destroy)         | Deletes a stack from an AWS account                                        |
+| [`cdk bootstrap`](#cdk-bootstrap)     | Deploy a toolkit stack to support deploying large stacks & artifacts       |
+| [`cdk doctor`](#cdk-doctor)           | Inspect the environment and produce information useful for troubleshooting |
+| [`cdk acknowledge`](#cdk-acknowledge) | Acknowledge (and hide) a notice by issue number                            |
+| [`cdk notices`](#cdk-notices)         | List all relevant notices for the application                              |
 
 - [Bundling](#bundling)
 - [MFA Support](#mfa-support)
@@ -157,6 +157,13 @@ $ # Diff against a specific template document
 $ cdk diff --app='node bin/main.js' MyStackName --template=path/to/template.yml
 ```
 
+The `quiet` flag can also be passed to the `cdk diff` command. Assuming there are no differences detected the output to the console will **not** contain strings such as the *Stack* `MyStackName` and `There were no differences`.
+
+```console
+$ # Diff against the currently deployed stack with quiet parameter enabled
+$ cdk diff --quiet --app='node bin/main.js' MyStackName
+```
+
 ### `cdk deploy`
 
 Deploys a stack of your CDK app to its environment. During the deployment, the toolkit will output progress
@@ -246,7 +253,7 @@ Usage of output in a CDK stack
 const fn = new lambda.Function(this, "fn", {
   handler: "index.handler",
   code: lambda.Code.fromInline(`exports.handler = \${handler.toString()}`),
-  runtime: lambda.Runtime.NODEJS_14_X
+  runtime: lambda.Runtime.NODEJS_LATEST
 });
 
 new cdk.CfnOutput(this, 'FunctionArn', {
@@ -414,7 +421,8 @@ Hotswapping is currently supported for the following changes
 - Container asset changes of AWS ECS Services.
 - Website asset changes of AWS S3 Bucket Deployments.
 - Source and Environment changes of AWS CodeBuild Projects.
-- VTL mapping template changes for AppSync Resolvers and Functions
+- VTL mapping template changes for AppSync Resolvers and Functions.
+- Schema changes for AppSync GraphQL Apis.
 
 **⚠ Note #1**: This command deliberately introduces drift in CloudFormation stacks in order to speed up deployments.
 For this reason, only use it for development purposes.
@@ -423,7 +431,7 @@ For this reason, only use it for development purposes.
 **⚠ Note #2**: This command is considered experimental,
 and might have breaking changes in the future.
 
-**⚠ Note #3**: Expected defaults for certain parameters may be different with the hotswap parameter. For example, an ECS service's minimum healthy percentage will currently be set to 0. Please review the source accordingly if this occurs. 
+**⚠ Note #3**: Expected defaults for certain parameters may be different with the hotswap parameter. For example, an ECS service's minimum healthy percentage will currently be set to 0. Please review the source accordingly if this occurs.
 
 ### `cdk watch`
 
@@ -540,17 +548,17 @@ To import an existing resource to a CDK stack, follow the following steps:
 
 #### Limitations
 
-This feature is currently in preview. Be aware of the following limitations:
+This feature currently has the following limitations:
 
-- Importing resources in nested stacks is not possible.
-- Uses the deploy role credentials (necessary to read the encrypted staging
-  bucket). Requires a new version (version 12) of the bootstrap stack, for the added
-  IAM permissions to the `deploy-role`.
+- Importing resources into nested stacks is not possible.
 - There is no check on whether the properties you specify are correct and complete
   for the imported resource. Try starting a drift detection operation after importing.
 - Resources that depend on other resources must all be imported together, or one-by-one
-  in the right order. The CLI will not help you import dependent resources in the right
-  order, the CloudFormation deployment will fail with unresolved references.
+  in the right order. If you do not, the CloudFormation deployment will fail
+  with unresolved references.
+- Uses the deploy role credentials (necessary to read the encrypted staging
+  bucket). Requires version 12 of the bootstrap stack, for the added
+  IAM permissions to the `deploy-role`.
 
 ### `cdk destroy`
 
@@ -611,7 +619,7 @@ boundaries see the [Security And Safety Dev Guide](https://github.com/aws/aws-cd
 
 Once a bootstrap template has been deployed with a set of parameters, you must
 use the `--no-previous-parameters` CLI flag to change any of these parameters on
-future deployments. 
+future deployments.
 
 > **Note** Please note that when you use this flag, you must resupply
 >*all* previously supplied parameters.

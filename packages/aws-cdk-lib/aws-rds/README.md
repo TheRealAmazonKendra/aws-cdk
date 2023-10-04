@@ -34,7 +34,7 @@ const cluster = new rds.DatabaseCluster(this, 'Database', {
 });
 ```
 
-To adopt Aurora I/O-Optimized. Speicify `DBClusterStorageType.AURORA_IOPT1` on the `storageType` property.
+To adopt Aurora I/O-Optimized. Specify `DBClusterStorageType.AURORA_IOPT1` on the `storageType` property.
 
 ```ts
 declare const vpc: ec2.Vpc;
@@ -297,6 +297,27 @@ DB instance to a status of `incompatible-parameters`. While the DB instance has
 the incompatible-parameters status, some operations are blocked. For example,
 you can't upgrade the engine version.
 
+#### CA certificate
+
+Use the `caCertificate` property to specify the [CA certificates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html)
+to use for a cluster instances:
+
+```ts
+declare const vpc: ec2.Vpc;
+const cluster = new rds.DatabaseCluster(this, 'Database', {
+  engine: rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_01_0 }),
+  writer: rds.ClusterInstance.provisioned('writer', {
+    caCertificate: rds.CaCertificate.RDS_CA_RDS2048_G1,
+  }),
+  readers: [
+    rds.ClusterInstance.serverlessV2('reader', {
+      caCertificate: rds.CaCertificate.of('custom-ca'),
+    }),
+  ],
+  vpc,
+});
+```
+
 ### Migrating from instanceProps
 
 Creating instances in a `DatabaseCluster` using `instanceProps` & `instances` is
@@ -462,6 +483,31 @@ const gp3Instance = new rds.DatabaseInstance(this, 'Gp3Instance', {
   allocatedStorage: 500,
   storageType: rds.StorageType.GP3,
   storageThroughput: 500, // only applicable for GP3
+});
+```
+
+Use the `caCertificate` property to specify the [CA certificates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html)
+to use for the instance:
+
+```ts
+declare const vpc: ec2.Vpc;
+
+new rds.DatabaseInstance(this, 'Instance', {
+  engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_0_30 }),
+  vpc,
+  caCertificate: rds.CaCertificate.RDS_CA_RDS2048_G1,
+});
+```
+
+You can specify a custom CA certificate with:
+
+```ts
+declare const vpc: ec2.Vpc;
+
+new rds.DatabaseInstance(this, 'Instance', {
+  engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_0_30 }),
+  vpc,
+  caCertificate: rds.CaCertificate.of('future-rds-ca'),
 });
 ```
 
@@ -671,7 +717,7 @@ instance.addRotationSingleUser({
 });
 ```
 
-See also [@aws-cdk/aws-secretsmanager](https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/aws-secretsmanager/README.md) for credentials rotation of existing clusters/instances.
+See also [aws-cdk-lib/aws-secretsmanager](https://github.com/aws/aws-cdk/blob/main/packages/aws-cdk-lib/aws-secretsmanager/README.md) for credentials rotation of existing clusters/instances.
 
 By default, any stack updates will cause AWS Secrets Manager to rotate a secret immediately. To prevent this behavior and wait until the next scheduled rotation window specified via the `automaticallyAfter` property, set the `rotateImmediatelyOnUpdate` property to false:
 
@@ -1018,7 +1064,7 @@ const cluster = new rds.ServerlessCluster(this, 'AnotherCluster', {
 
 declare const code: lambda.Code;
 const fn = new lambda.Function(this, 'MyFunction', {
-  runtime: lambda.Runtime.NODEJS_14_X,
+  runtime: lambda.Runtime.NODEJS_LATEST,
   handler: 'index.handler',
   code,
   environment: {
