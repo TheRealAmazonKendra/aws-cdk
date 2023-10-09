@@ -20,5 +20,8 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: npm -g install yarn lerna
+      - run: |-
+          ls
+          pwd
       - name: Build
         run: yarn build
