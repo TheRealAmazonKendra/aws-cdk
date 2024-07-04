@@ -23,7 +23,6 @@ jobs:
       - name: Build
         run: |-
           /bin/bash ./build.sh --ci --skip-test
-          /bin/bash ./scripts/run-rosetta.sh
       - name: Find Mutations
         id: self_mutation
         run: |-
