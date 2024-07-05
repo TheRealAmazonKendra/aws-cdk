@@ -72,6 +72,9 @@ jobs:
           # if ! rosetta_cache
       - name: Run Rosetta
         run: |-
+          pwd
+          ls
+          tar -xvf file.tar
           set -eu
           ROSETTA=${ROSETTA:-npx jsii-rosetta}
           rosetta_cache_file=$HOME/.buildcache/rosetta-cache.tabl.json
@@ -90,7 +93,7 @@ jobs:
           name: aws-cdk
       - name: Run Tests
         run: |-
-          ls
+          tar -xvf file.tar
           cd aws-cdk/packages/aws-cdk-lib
           yarn jest
 
@@ -104,6 +107,7 @@ jobs:
         name: aws-cdk
     - name: Run Tests
       run: |-
+        tar -xvf file.tar
         cd aws-cdk/packages/aws-cdk
         yarn jest
         
