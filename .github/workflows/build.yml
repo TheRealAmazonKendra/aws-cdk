@@ -9,6 +9,7 @@ jobs:
       contents: write
     outputs: 
       self_mutation_happened: ${{ steps.self_mutation.outputs.self_mutation_happened }}
+      build_artifact: ${{ steps.artifact_upload_step.outputs.artifact-id }}
     env: 
       CI: "true"
       PR_BUILD: "true"
@@ -22,6 +23,8 @@ jobs:
         run: npm install -g lerna
       - name: Build
         run: |-
+          pwd
+          ls
           /bin/bash ./build.sh --ci --skip-test
       - name: Find Mutations
         id: self_mutation
@@ -42,6 +45,68 @@ jobs:
           echo "::error::Files were changed during build (see build log). If this was triggered from a fork, you will need to update your branch."
           cat .repo.patch
           exit 1
+      - name: Bundle Build
+        run: tar -cvf aws-cdk.tar .
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        id: artifact_upload_step
+        with:
+          name: aws-cdk
+          path: aws-cdk.tar
+          retention-days: 5
+  
+  rosetta:
+    needs: build
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Get Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: aws-cdk
+       # - name: Retrieve Rosetta Cache
+        # run: |-
+          # set -eu
+          # cachedir=$HOME/.rosettacache
+          # mkdir -p $cachedir
+          # echo "🧳 Build cache enabled: ${rosetta_cache}"
+          # if ! rosetta_cache
+      - name: Run Rosetta
+        run: |-
+          set -eu
+          ROSETTA=${ROSETTA:-npx jsii-rosetta}
+          rosetta_cache_file=$HOME/.buildcache/rosetta-cache.tabl.json
+          #----------------------------------------------------------------------
+          echo "💎 Extracting code samples" >&2
+          time $ROSETTA extract --compile --verbose --compress-tablet # --cache ${rosetta_cache_file}
+          # time $ROSETTA trim-cache ${rosetta_cache_file}
+            
+  test-aws-cdk-lib:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: aws-cdk
+      - name: Run Tests
+        run: |-
+          ls
+          cd aws-cdk/packages/aws-cdk-lib
+          yarn jest
+
+  test-aws-cdk:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Build Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: aws-cdk
+    - name: Run Tests
+      run: |-
+        cd aws-cdk/packages/aws-cdk
+        yarn jest
+        
   self-mutation:
     needs: build
     runs-on: ubuntu-latest
