@@ -74,10 +74,10 @@ jobs:
         run: |-
           pwd
           ls
-          tar -xvf file.tar
+          # tar -xvf file.tar
           set -eu
           ROSETTA=${ROSETTA:-npx jsii-rosetta}
-          rosetta_cache_file=$HOME/.buildcache/rosetta-cache.tabl.json
+          # rosetta_cache_file=$HOME/.buildcache/rosetta-cache.tabl.json
           #----------------------------------------------------------------------
           echo "💎 Extracting code samples" >&2
           time $ROSETTA extract --compile --verbose --compress-tablet # --cache ${rosetta_cache_file}
@@ -93,6 +93,8 @@ jobs:
           name: aws-cdk
       - name: Run Tests
         run: |-
+          pwd
+          ls
           tar -xvf file.tar
           cd aws-cdk/packages/aws-cdk-lib
           yarn jest
@@ -107,6 +109,8 @@ jobs:
         name: aws-cdk
     - name: Run Tests
       run: |-
+        pwd
+        ls
         tar -xvf file.tar
         cd aws-cdk/packages/aws-cdk
         yarn jest
