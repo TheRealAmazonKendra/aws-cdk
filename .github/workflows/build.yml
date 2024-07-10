@@ -22,10 +22,7 @@ jobs:
       - name: Install Dependencies
         run: npm install -g lerna
       - name: Build
-        run: |-
-          pwd
-          ls
-          /bin/bash ./build.sh --ci --skip-test
+        run: /bin/bash ./build.sh --ci --skip-test
       - name: Find Mutations
         id: self_mutation
         run: |-
@@ -72,8 +69,6 @@ jobs:
           # if ! rosetta_cache
       - name: Run Rosetta
         run: |-
-          pwd
-          ls
           # tar -xvf file.tar
           set -eu
           ROSETTA=${ROSETTA:-npx jsii-rosetta}
@@ -91,12 +86,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: aws-cdk
+      - name: Unpack Build Artifact
+        run: tar -xvf aws-cdk.tar
       - name: Run Tests
         run: |-
-          pwd
-          ls
-          tar -xvf aws-cdk.tar
-          cd aws-cdk/packages/aws-cdk-lib
+          cd packages/aws-cdk-lib
           yarn jest
 
   test-aws-cdk:
@@ -107,12 +101,11 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: aws-cdk
+    - name: Unpack Build Artifact
+      run: tar -xvf aws-cdk.tar
     - name: Run Tests
       run: |-
-        pwd
-        ls
-        tar -xvf aws-cdk.tar
-        cd aws-cdk/packages/aws-cdk
+        cd packages/aws-cdk
         yarn jest
         
   self-mutation:
