@@ -95,7 +95,7 @@ jobs:
         run: |-
           pwd
           ls
-          tar -xvf file.tar
+          tar -xvf aws-cdk.tar
           cd aws-cdk/packages/aws-cdk-lib
           yarn jest
 
@@ -111,7 +111,7 @@ jobs:
       run: |-
         pwd
         ls
-        tar -xvf file.tar
+        tar -xvf aws-cdk.tar
         cd aws-cdk/packages/aws-cdk
         yarn jest
         
