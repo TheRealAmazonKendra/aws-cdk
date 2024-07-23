@@ -19,10 +19,25 @@ jobs:
         with: 
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Install Dependencies
+      - name: Install Lerna
         run: npm install -g lerna
+      - name: Yarn Install
+        run: |-
+          set -euo pipefail
+          yarn install --frozen-lockfile --network-timeout 1000000
+      - name: Git Secrets Scan
+        run: /bin/bash ./git-secrets-scan.sh
+      - name: Check Prerequisites
+        run: /bin/bash ./scripts/check-build-prerequisites.sh
+      - name: Check Yarn Lock Consistency
+        run: node ./scripts/check-yarn-lock.js
+      - name: Prepare Build
+        run: /bin/bash scripts/generate-aggregate-tsconfig.sh > tsconfig.json
       - name: Build
-        run: /bin/bash ./build.sh --ci --skip-test
+        run: |-
+          time npx lerna run build --no-bail --stream --no-progress --skip-nx-cache
+      - name: Check API Compatibility
+        run: /bin/bash scripts/check-api-compatibility.sh
       - name: Find Mutations
         id: self_mutation
         run: |-
