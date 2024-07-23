@@ -10,7 +10,6 @@ All notable changes to this project will be documented in this file. See [standa
 * **apprunner:** add AutoScalingConfiguration for AppRunner Service ([#30358](https://github.com/aws/aws-cdk/issues/30358)) ([a598508](https://github.com/aws/aws-cdk/commit/a598508e2a86c5932cbbbc4249cdc228bf2cbf39)), closes [#30353](https://github.com/aws/aws-cdk/issues/30353)
 * **apprunner:** add ObservabilityConfiguration for AppRunner Service ([#30359](https://github.com/aws/aws-cdk/issues/30359)) ([9e9cc27](https://github.com/aws/aws-cdk/commit/9e9cc277d55774b0b2e8887676ddb328eb662d74)), closes [#22985](https://github.com/aws/aws-cdk/issues/22985)
 * **pipes-enrichments:** add Step Functions enrichment eventbridge pipes ([#30495](https://github.com/aws/aws-cdk/issues/30495)) ([8b495f9](https://github.com/aws/aws-cdk/commit/8b495f9ec157c0b00674715f62b1bbcabf2096ac)), closes [#29385](https://github.com/aws/aws-cdk/issues/29385)
-* **pipes-targets:** add lambda function ([#30271](https://github.com/aws/aws-cdk/issues/30271)) ([f594fae](https://github.com/aws/aws-cdk/commit/f594fae922ea19c087c56405046098e5683d2c70)), closes [#30270](https://github.com/aws/aws-cdk/issues/30270)
 
 
 ### Bug Fixes
