@@ -1,6 +1,6 @@
 The aws-cdk package includes the following third-party software/licensing:
 
-** @jsii/check-node@1.102.0 - https://www.npmjs.com/package/@jsii/check-node/v/1.102.0 | Apache-2.0
+** @jsii/check-node@1.106.0 - https://www.npmjs.com/package/@jsii/check-node/v/1.106.0 | Apache-2.0
 jsii
 Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
@@ -33,7 +33,7 @@ SOFTWARE.
 
 ----------------
 
-** agent-base@7.1.1 - https://www.npmjs.com/package/agent-base/v/7.1.1 | MIT
+** agent-base@7.1.3 - https://www.npmjs.com/package/agent-base/v/7.1.3 | MIT
 (The MIT License)
 
 Copyright (c) 2013 Nathan Rajlich <nathan@tootallnate.net>
@@ -59,7 +59,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ----------------
 
-** ajv@8.16.0 - https://www.npmjs.com/package/ajv/v/8.16.0 | MIT
+** ajv@8.17.1 - https://www.npmjs.com/package/ajv/v/8.17.1 | MIT
 The MIT License (MIT)
 
 Copyright (c) 2015-2021 Evgeny Poberezkin
@@ -251,7 +251,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ----------------
 
-** async@3.2.5 - https://www.npmjs.com/package/async/v/3.2.5 | MIT
+** async@3.2.6 - https://www.npmjs.com/package/async/v/3.2.6 | MIT
 Copyright (c) 2010-2018 Caolan McMahon
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -286,17 +286,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 ----------------
 
-** aws-sdk@2.1653.0 - https://www.npmjs.com/package/aws-sdk/v/2.1653.0 | Apache-2.0
-AWS SDK for JavaScript
-Copyright 2012-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-
-This product includes software developed at
-Amazon Web Services, Inc. (http://aws.amazon.com/).
-
-
-----------------
-
-** aws-sdk@2.1675.0 - https://www.npmjs.com/package/aws-sdk/v/2.1675.0 | Apache-2.0
+** aws-sdk@2.1692.0 - https://www.npmjs.com/package/aws-sdk/v/2.1692.0 | Apache-2.0
 AWS SDK for JavaScript
 Copyright 2012-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
@@ -494,7 +484,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ----------------
 
-** cdk-from-cfn@0.162.0 - https://www.npmjs.com/package/cdk-from-cfn/v/0.162.0 | MIT OR Apache-2.0
+** cdk-from-cfn@0.168.0 - https://www.npmjs.com/package/cdk-from-cfn/v/0.168.0 | MIT OR Apache-2.0
 
 ----------------
 
@@ -926,7 +916,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ----------------
 
-** debug@4.3.5 - https://www.npmjs.com/package/debug/v/4.3.5 | MIT
+** debug@4.4.0 - https://www.npmjs.com/package/debug/v/4.4.0 | MIT
 (The MIT License)
 
 Copyright (c) 2014-2017 TJ Holowaychuk <tj@vision-media.ca>
@@ -1053,7 +1043,7 @@ THE SOFTWARE.
 
 ----------------
 
-** escalade@3.1.2 - https://www.npmjs.com/package/escalade/v/3.1.2 | MIT
+** escalade@3.2.0 - https://www.npmjs.com/package/escalade/v/3.2.0 | MIT
 MIT License
 
 Copyright (c) Luke Edwards <luke.edwards05@gmail.com> (lukeed.com)
@@ -1245,26 +1235,6 @@ THE SOFTWARE.
 
 ----------------
 
-** fs-extra@11.2.0 - https://www.npmjs.com/package/fs-extra/v/11.2.0 | MIT
-(The MIT License)
-
-Copyright (c) 2011-2017 JP Richardson
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
-(the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
- merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-----------------
-
 ** fs-extra@9.1.0 - https://www.npmjs.com/package/fs-extra/v/9.1.0 | MIT
 (The MIT License)
 
@@ -1337,7 +1307,7 @@ the licensed code:
 
 ----------------
 
-** get-uri@6.0.3 - https://www.npmjs.com/package/get-uri/v/6.0.3 | MIT
+** get-uri@6.0.4 - https://www.npmjs.com/package/get-uri/v/6.0.4 | MIT
 (The MIT License)
 
 Copyright (c) 2014 Nathan Rajlich <nathan@tootallnate.net>
@@ -1470,7 +1440,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ----------------
 
-** https-proxy-agent@7.0.5 - https://www.npmjs.com/package/https-proxy-agent/v/7.0.5 | MIT
+** https-proxy-agent@7.0.6 - https://www.npmjs.com/package/https-proxy-agent/v/7.0.6 | MIT
 (The MIT License)
 
 Copyright (c) 2013 Nathan Rajlich <nathan@tootallnate.net>
@@ -2206,7 +2176,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ----------------
 
-** ms@2.1.2 - https://www.npmjs.com/package/ms/v/2.1.2 | MIT
+** ms@2.1.3 - https://www.npmjs.com/package/ms/v/2.1.3 | MIT
 
 ----------------
 
@@ -2280,7 +2250,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ----------------
 
-** pac-proxy-agent@7.0.2 - https://www.npmjs.com/package/pac-proxy-agent/v/7.0.2 | MIT
+** pac-proxy-agent@7.1.0 - https://www.npmjs.com/package/pac-proxy-agent/v/7.1.0 | MIT
 (The MIT License)
 
 Copyright (c) 2014 Nathan Rajlich <nathan@tootallnate.net>
@@ -2415,7 +2385,7 @@ THE SOFTWARE.
 
 ----------------
 
-** proxy-agent@6.4.0 - https://www.npmjs.com/package/proxy-agent/v/6.4.0 | MIT
+** proxy-agent@6.5.0 - https://www.npmjs.com/package/proxy-agent/v/6.5.0 | MIT
 (The MIT License)
 
 Copyright (c) 2013 Nathan Rajlich <nathan@tootallnate.net>
@@ -2946,26 +2916,6 @@ Copyright (c) 2010-2024 Mathias Bynens <https://mathiasbynens.be/>
 
 ----------------
 
-** semver@7.6.2 - https://www.npmjs.com/package/semver/v/7.6.2 | ISC
-The ISC License
-
-Copyright (c) Isaac Z. Schlueter and Contributors
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
-IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-
-----------------
-
 ** semver@7.6.3 - https://www.npmjs.com/package/semver/v/7.6.3 | ISC
 The ISC License
 
@@ -3026,7 +2976,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ----------------
 
-** socks-proxy-agent@8.0.4 - https://www.npmjs.com/package/socks-proxy-agent/v/8.0.4 | MIT
+** socks-proxy-agent@8.0.5 - https://www.npmjs.com/package/socks-proxy-agent/v/8.0.5 | MIT
 (The MIT License)
 
 Copyright (c) 2013 Nathan Rajlich <nathan@tootallnate.net>
@@ -3291,7 +3241,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ----------------
 
-** table@6.8.2 - https://www.npmjs.com/package/table/v/6.8.2 | BSD-3-Clause
+** table@6.9.0 - https://www.npmjs.com/package/table/v/6.9.0 | BSD-3-Clause
 Copyright (c) 2018, Gajus Kuizinas (http://gajus.com/)
 All rights reserved.
 
@@ -3371,7 +3321,7 @@ THE SOFTWARE.
 
 ----------------
 
-** tslib@2.6.3 - https://www.npmjs.com/package/tslib/v/2.6.3 | 0BSD
+** tslib@2.8.1 - https://www.npmjs.com/package/tslib/v/2.8.1 | 0BSD
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
